@@ -6,7 +6,7 @@
 
 ### Craftgate Payment Gateway Spring Supported Library
 
-You can add craftgate-spring as a dependency and then use **plug-and-play** for payment.
+You can add spring-craftgate as a dependency and then use it as **plug-and-play** for payment. The spring-craftgate uses the official dependency published as the **1.0.33** version for models.
 
 maven
 
@@ -75,7 +75,7 @@ craftgate:
 public class MyPaymentService {
 
     @Autowired
-    private CraftgatePayment payment;
+    private CraftGatePayment payment;
 
     public void makePayment() {
         CreatePaymentRequest request = //<ommited>;
@@ -93,7 +93,7 @@ public class MyPaymentService {
 public class MyPaymentService {
 
     @Autowired
-    private CraftgatePayment payment;
+    private CraftGatePayment payment;
 
     public void makePayment() {
         CreatePaymentRequest request = //<ommited>;
@@ -123,7 +123,7 @@ Otherwise, you can define a bean called craftgateRandomKeyProvider with a differ
 @Bean
 @ConditionalOnMissingBean
 public RandomKeyProvider craftgateRandomKeyProvider() {
-    return ()->UUID.randomUUID().toString();
+    return () -> UUID.randomUUID().toString();
 }
 ```
 
