@@ -6,7 +6,7 @@ plugins {
     id 'signing'
 }
 
-group = 'io.gklp.craftgate'
+group = 'io.github.gklp'
 version = '1.0.0'
 description = 'Craftgate Payment Gateway Spring Supported Library'
 sourceCompatibility = 1.8
@@ -56,7 +56,7 @@ jar {
         attributes('Implementation-Title': project.name,
                 'Implementation-Version': project.version,
                 'Build-Jdk-Spec': sourceCompatibility,
-                'Automatic-Module-Name': 'io.gklp.craftgate')
+                'Automatic-Module-Name': 'io.github.gklp.springcraftgate')
     }
 }
 

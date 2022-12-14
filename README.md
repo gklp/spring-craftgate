@@ -12,7 +12,7 @@ maven
 
 ```
 <dependency>
-    <groupId>io.gklp.craftgate</groupId>
+    <groupId>io.github.gklp</groupId>
     <artifactId>spring-craftgate</artifactId>
     <version>1.0.0</version>
 </dependency>
@@ -21,7 +21,7 @@ maven
 gradle
 
 ```
-implementation 'io.gklp.craftgate:spring-craftgate:1.0.0'
+implementation 'io.github.gklp:spring-craftgate:1.0.0'
 ```
 
 ### Configurations

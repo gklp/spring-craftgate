@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.gklp.craftgate.config.CraftGateAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.github.gklp.springcraftgate.config.CraftGateAutoConfiguration
