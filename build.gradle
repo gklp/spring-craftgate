@@ -1,0 +1,112 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.2'
+    id 'io.spring.dependency-management' version '1.0.12.RELEASE'
+    id 'java-library'
+    id 'maven-publish'
+    id 'signing'
+}
+
+group = 'io.gklp.craftgate'
+version = '1.0.0'
+description = 'Craftgate Payment Gateway Spring Supported Library'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'io.craftgate:craftgate:1.0.33'
+    implementation 'commons-codec:commons-codec:1.15'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.assertj:assertj-core:3.23.1'
+    testImplementation 'net.sourceforge.htmlunit:htmlunit:2.67.0'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        exceptionFormat = 'full'
+    }
+}
+
+java {
+    withSourcesJar()
+}
+
+jar {
+    enabled = true
+    baseName(project.name)
+    version(project.version)
+    manifest {
+        attributes('Implementation-Title': project.name,
+                'Implementation-Version': project.version,
+                'Build-Jdk-Spec': sourceCompatibility,
+                'Automatic-Module-Name': 'io.gklp.craftgate')
+    }
+}
+
+bootJar {
+    enabled = false
+}
+
+publishing {
+    publications {//noinspection GroovyAssignabilityCheck
+        mavenJava(MavenPublication) {
+            artifactId = project.name
+            from components.java
+            pom {
+                inceptionYear = '2022'
+                name = project.name
+                packaging = 'jar'
+                description = project.description
+                url = 'https://github.com/gklp/spring-craftgate'
+                scm {
+                    connection = 'git@github.com:gklp/spring-craftgate.git'
+                    developerConnection = 'git@github.com:gklp/spring-craftgate.git'
+                    url = 'https://github.com/gklp/spring-craftgate'
+                }
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'gokalp'
+                        name = 'Gokalp Kuscu'
+                        email = 'gokalpkuscu@gmail.com'
+                    }
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            credentials {
+                username project.properties['ossrhUsername']?.toString()
+                password project.properties['ossrhPassword']?.toString()
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
+}

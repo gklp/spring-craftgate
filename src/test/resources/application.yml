@@ -1,0 +1,5 @@
+craftgate:
+  api:
+    url: https://sandbox-api.craftgate.io
+    key: ${CRAFTGATE_KEY}
+    secret: ${CRAFTGATE_SECRET}

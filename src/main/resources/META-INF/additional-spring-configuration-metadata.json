@@ -1,0 +1,46 @@
+{
+  "properties": [
+    {
+      "name": "craftgate.enabled",
+      "type": "java.lang.String",
+      "description": "You can disable beans related Craftgate using property.",
+      "defaultValue": true
+    },
+    {
+      "name": "craftgate.api.url",
+      "type": "java.lang.String",
+      "description": "The url for reaching Craftgate services.",
+      "defaultValue": "none"
+    },
+    {
+      "name": "craftgate.api.key",
+      "type": "java.lang.String",
+      "description": "The CraftGate api key.",
+      "defaultValue": "none"
+    },
+    {
+      "name": "craftgate.api.secret",
+      "type": "java.lang.String",
+      "description": "The CraftGate api secret.",
+      "defaultValue": "none"
+    },
+    {
+      "name": "craftgate.api.authVersion",
+      "type": "java.lang.String",
+      "description": "The CraftGate authorization version. If you are not sure what value you should give, you can give V1. Nevertheless If you face an error, you can check their developer websites.",
+      "defaultValue": "v1"
+    },
+    {
+      "name": "craftgate.api.clientVersion",
+      "type": "java.lang.String",
+      "description": "The CraftGate client version. If you face an error, you can check their developer websites.",
+      "defaultValue": "craftgate-java-client:1.0.26"
+    },
+    {
+      "name": "craftgate.log.enabled",
+      "type": "java.lang.String",
+      "description": "If you want to trace the request calls, you can set true. This is not recommended for the production environment.",
+      "defaultValue": false
+    }
+  ]
+}
