@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public final class TestData {
+public final class PaymentTestData {
 
-    private TestData() {
+    private PaymentTestData() {
     }
 
     public static String HOLDER_NAME = "Haluk Demir";
@@ -258,10 +258,10 @@ public final class TestData {
                 .build();
     }
 
-    public static CreateDepositPaymentRequest depositPaymentRequest() {
+    public static CreateDepositPaymentRequest depositPaymentRequest(Long buyerMemberId) {
         return CreateDepositPaymentRequest.builder()
                 .price(BigDecimal.valueOf(100))
-                .buyerMemberId(1L)
+                .buyerMemberId(buyerMemberId)
                 .conversationId("456d1297-908e-4bd6-a13b-4be31a6e47d5")
                 .card(Card.builder()
                         .cardHolderName(HOLDER_NAME)

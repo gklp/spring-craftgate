@@ -3,6 +3,7 @@ package io.github.gklp.springcraftgate.provider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.craftgate.exception.CraftgateException;
 import io.github.gklp.springcraftgate.config.properties.CraftGateConfigurationProperties;
+import io.github.gklp.springcraftgate.provider.annotation.CraftGateObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -15,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 @RequiredArgsConstructor
 public class HashGenerator {
 
+    @CraftGateObjectMapper
     private final ObjectMapper objectMapper;
 
     private final CraftGateConfigurationProperties craftgateConfigurationProperties;

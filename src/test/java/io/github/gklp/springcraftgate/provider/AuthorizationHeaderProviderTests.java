@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
+import utils.PaymentTestData;
 import utils.TestConfiguration;
-import utils.TestData;
 
 import java.util.function.Consumer;
 
@@ -33,7 +33,7 @@ public class AuthorizationHeaderProviderTests {
         //Given
         String randomString = "anyRandomString";
         String signature = "anyHashedSignature";
-        CreatePaymentRequest paymentRequest = TestData.paymentRequest();
+        CreatePaymentRequest paymentRequest = PaymentTestData.paymentRequest();
 
         when(craftgateRandomKeyProvider.generate()).thenReturn(randomString);
         when(hashGenerator.generateHash(randomString, paymentRequest, Constants.PaymentPaths.CARD_PAYMENTS.path())).thenReturn(signature);

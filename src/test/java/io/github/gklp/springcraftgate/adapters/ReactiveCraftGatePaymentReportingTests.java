@@ -7,8 +7,8 @@ import io.craftgate.response.ReportingPaymentListResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import utils.PaymentTestData;
 import utils.TestConfiguration;
-import utils.TestData;
 import utils.TestUtil;
 
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class ReactiveCraftGatePaymentReportingTests {
     void should_find_payment_using_conversion_id() throws IOException {
         //Given
         String conversationId = UUID.randomUUID().toString();
-        InitThreeDSPaymentRequest initThreeDSPaymentRequest = TestData.threeDSPaymentRequest(conversationId, false);
+        InitThreeDSPaymentRequest initThreeDSPaymentRequest = PaymentTestData.threeDSPaymentRequest(conversationId, false);
         InitThreeDSPaymentResponse initThreeDSPaymentResponse = underTest.init3DSPayment(initThreeDSPaymentRequest).block();
 
         assert initThreeDSPaymentResponse != null;

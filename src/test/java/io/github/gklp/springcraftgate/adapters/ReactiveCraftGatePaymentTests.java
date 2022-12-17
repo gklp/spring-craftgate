@@ -9,8 +9,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import utils.OnboardingTestData;
+import utils.PaymentTestData;
 import utils.TestConfiguration;
-import utils.TestData;
 import utils.TestUtil;
 
 import java.io.IOException;
@@ -31,10 +32,13 @@ class ReactiveCraftGatePaymentTests {
     @Autowired
     private CraftGatePaymentReporting craftgatePaymentReporting;
 
+    @Autowired
+    private CraftGateOnboarding craftGateOnboarding;
+
     @Test
     void should_create_payment_successfully() {
         //Given
-        CreatePaymentRequest request = TestData.paymentRequest();
+        CreatePaymentRequest request = PaymentTestData.paymentRequest();
 
         //When
         PaymentResponse response = underTest.createPayment(request).block();
@@ -72,7 +76,7 @@ class ReactiveCraftGatePaymentTests {
     void should_create_payment_with_multiple_cards_successfully(String cardNo, String binNumber, String lastFourDigits,
                                                                 String cardType, String cardBrand, String cardAssociation) {
         //Given
-        CreatePaymentRequest request = TestData.paymentRequest(cardNo);
+        CreatePaymentRequest request = PaymentTestData.paymentRequest(cardNo);
 
         //When
         PaymentResponse response = underTest.createPayment(request).block();
@@ -108,7 +112,7 @@ class ReactiveCraftGatePaymentTests {
     @Test
     void create_payment_and_store_card() {
         //Given
-        CreatePaymentRequest request = TestData.paymentRequest(true);
+        CreatePaymentRequest request = PaymentTestData.paymentRequest(true);
 
         //When
         PaymentResponse response = underTest.createPayment(request).block();
@@ -142,9 +146,9 @@ class ReactiveCraftGatePaymentTests {
     @ParameterizedTest
     @CsvFileSource(resources = "/testCards.csv", numLinesToSkip = 1)
     void create_payment_and_store_card_with_multiple_cards_successfully(String cardNo, String binNumber, String lastFourDigits,
-                                                                String cardType, String cardBrand, String cardAssociation) {
+                                                                        String cardType, String cardBrand, String cardAssociation) {
         //Given
-        CreatePaymentRequest request = TestData.paymentRequest(true, cardNo);
+        CreatePaymentRequest request = PaymentTestData.paymentRequest(true, cardNo);
 
         //When
         PaymentResponse response = underTest.createPayment(request).block();
@@ -178,11 +182,11 @@ class ReactiveCraftGatePaymentTests {
     @Test
     void create_payment_using_stored_card() {
         //Given
-        final StoreCardRequest storeCardRequest = TestData.buildStoreCardRequest("myCard");
+        final StoreCardRequest storeCardRequest = PaymentTestData.buildStoreCardRequest("myCard");
         StoredCardResponse storedCardResponse = underTest.storeCard(storeCardRequest).block(); //create store card
 
         assert storedCardResponse != null;
-        final CreatePaymentRequest request = TestData.paymentRequest(storedCardResponse);
+        final CreatePaymentRequest request = PaymentTestData.paymentRequest(storedCardResponse);
 
         //When
         PaymentResponse response = underTest.createPayment(request).block();
@@ -221,7 +225,7 @@ class ReactiveCraftGatePaymentTests {
             put("cardToken", "tuz8imxv30");
         }};
         additionalParams.put("paymentProvider", paymentProviderParams);
-        CreatePaymentRequest request = TestData.paymentRequest(additionalParams, "62-garanti-357");
+        CreatePaymentRequest request = PaymentTestData.paymentRequest(additionalParams, "62-garanti-357");
 
         //When
         PaymentResponse response = underTest.createPayment(request).block();
@@ -264,7 +268,7 @@ class ReactiveCraftGatePaymentTests {
                 .build();
 
         //When
-        CreatePaymentRequest request = TestData.paymentRequest(loyalty);
+        CreatePaymentRequest request = PaymentTestData.paymentRequest(loyalty);
 
         //Then
         PaymentResponse response = underTest.createPayment(request).block();
@@ -301,7 +305,7 @@ class ReactiveCraftGatePaymentTests {
     @Test
     void create_payment_with_first6_last4_and_identityNumber() {
         //Given
-        CreatePaymentRequest request = TestData.paymentRequest("12345678900", "404308", "0003");
+        CreatePaymentRequest request = PaymentTestData.paymentRequest("12345678900", "404308", "0003");
 
         //When
         PaymentResponse response = underTest.createPayment(request).block();
@@ -335,7 +339,7 @@ class ReactiveCraftGatePaymentTests {
     @Test
     void init_3DS_payment() {
         //Given
-        InitThreeDSPaymentRequest request = TestData.threeDSPaymentRequest(null, false);
+        InitThreeDSPaymentRequest request = PaymentTestData.threeDSPaymentRequest(null, false);
 
         //When
         InitThreeDSPaymentResponse response = underTest.init3DSPayment(request).block();
@@ -349,7 +353,7 @@ class ReactiveCraftGatePaymentTests {
     @Test
     void init_3DS_payment_and_store_card() {
         //Given
-        InitThreeDSPaymentRequest request = TestData.threeDSPaymentRequest(null, true);
+        InitThreeDSPaymentRequest request = PaymentTestData.threeDSPaymentRequest(null, true);
 
         //When
         InitThreeDSPaymentResponse response = underTest.init3DSPayment(request).block();
@@ -363,11 +367,11 @@ class ReactiveCraftGatePaymentTests {
     @Test
     void init_3DS_payment_using_stored_card() {
         //Given
-        final StoreCardRequest storeCardRequest = TestData.buildStoreCardRequest("myCard");
+        final StoreCardRequest storeCardRequest = PaymentTestData.buildStoreCardRequest("myCard");
         StoredCardResponse storedCardResponse = underTest.storeCard(storeCardRequest).block(); //create store card
 
         assert storedCardResponse != null;
-        final InitThreeDSPaymentRequest request = TestData.threeDSPaymentRequest(null, false);
+        final InitThreeDSPaymentRequest request = PaymentTestData.threeDSPaymentRequest(null, false);
 
         //When
         InitThreeDSPaymentResponse response = underTest.init3DSPayment(request).block();
@@ -382,7 +386,7 @@ class ReactiveCraftGatePaymentTests {
     void complete_3DS_payment() throws IOException {
         //Given
         String conversationId = UUID.randomUUID().toString();
-        InitThreeDSPaymentRequest initThreeDSPaymentRequest = TestData.threeDSPaymentRequest(conversationId, false);
+        InitThreeDSPaymentRequest initThreeDSPaymentRequest = PaymentTestData.threeDSPaymentRequest(conversationId, false);
         InitThreeDSPaymentResponse initThreeDSPaymentResponse = underTest.init3DSPayment(initThreeDSPaymentRequest).block();
 
         assert initThreeDSPaymentResponse != null;
@@ -406,7 +410,7 @@ class ReactiveCraftGatePaymentTests {
     @Test
     void init_checkout_payment() {
         //Given
-        InitCheckoutPaymentRequest request = TestData.initCheckoutPaymentRequest();
+        InitCheckoutPaymentRequest request = PaymentTestData.initCheckoutPaymentRequest();
 
         //When
         InitCheckoutPaymentResponse response = underTest.initCheckoutPayment(request).block();
@@ -418,10 +422,11 @@ class ReactiveCraftGatePaymentTests {
     }
 
     @Test
-    @Disabled
     void create_deposit_payment() {
         //Given
-        CreateDepositPaymentRequest request = TestData.depositPaymentRequest();
+        MemberResponse memberResponse = craftGateOnboarding.createMember(OnboardingTestData.buyerMemberRequest()).block();
+        assert memberResponse != null;
+        CreateDepositPaymentRequest request = PaymentTestData.depositPaymentRequest(memberResponse.getId());
 
         //When
         DepositPaymentResponse response = underTest.createDepositPayment(request).block();
@@ -430,7 +435,7 @@ class ReactiveCraftGatePaymentTests {
         assertNotNull(response);
         assertNotNull(response.getId());
         assertEquals(request.getBuyerMemberId(), response.getBuyerMemberId());
-        assertEquals(request.getPrice(), response.getPrice());
+        assertThat(request.getPrice()).isEqualByComparingTo(response.getPrice());
         assertEquals(PaymentStatus.SUCCESS, response.getPaymentStatus());
         assertEquals(PaymentType.DEPOSIT_PAYMENT, response.getPaymentType());
     }
