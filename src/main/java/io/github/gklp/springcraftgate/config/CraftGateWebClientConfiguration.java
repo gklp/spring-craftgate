@@ -21,6 +21,7 @@ import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
@@ -42,12 +43,15 @@ public class CraftGateWebClientConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public WebClient.Builder craftgateWebClientBuilder(ExchangeStrategies.Builder craftgateExchangeBuilder) {
+        DefaultUriBuilderFactory defaultUriBuilderFactory = new DefaultUriBuilderFactory(craftGateConfigurationProperties.getUrl());
+        defaultUriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
+
         WebClient.Builder craftGateWebClientBuilder = WebClient.builder()
-                .baseUrl(craftGateConfigurationProperties.getUrl())
                 .defaultHeader(Constants.CraftgateHeaders.X_API_KEY.getHeaderKey(), craftGateConfigurationProperties.getKey())
                 .defaultHeader(Constants.CraftgateHeaders.X_AUTH_VERSION.getHeaderKey(), craftGateConfigurationProperties.getAuthVersion())
                 .defaultHeader(Constants.CraftgateHeaders.X_CLIENT_VERSION.getHeaderKey(), craftGateConfigurationProperties.getClientVersion())
                 .exchangeStrategies(craftgateExchangeBuilder.build())
+                .uriBuilderFactory(defaultUriBuilderFactory)
                 .filter(ExchangeFilterFunction.ofResponseProcessor(this::errorFilter));
 
         if (craftGateLogConfiguration.isEnabled()) {
@@ -60,7 +64,7 @@ public class CraftGateWebClientConfiguration {
     @ConditionalOnMissingBean
     public ExchangeStrategies.Builder craftgateExchangeBuilder(@CraftGateObjectMapper ObjectMapper objectMapper) {
         Jackson2JsonEncoder encoder = new Jackson2JsonEncoder(objectMapper, MediaType.APPLICATION_JSON);
-        Jackson2JsonDecoder decoder = new Jackson2JsonDecoder(objectMapper , MediaType.APPLICATION_JSON);
+        Jackson2JsonDecoder decoder = new Jackson2JsonDecoder(objectMapper, MediaType.APPLICATION_JSON);
 
         return ExchangeStrategies.builder().codecs(configurer -> {
             configurer.defaultCodecs().jackson2JsonEncoder(encoder);

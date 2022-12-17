@@ -9,6 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import utils.OnboardingTestData;
 import utils.PaymentTestData;
 import utils.TestConfiguration;
 import utils.TestUtil;
@@ -30,6 +31,9 @@ class ReactiveCraftGatePaymentTests {
 
     @Autowired
     private CraftGatePaymentReporting craftgatePaymentReporting;
+
+    @Autowired
+    private CraftGateOnboarding craftGateOnboarding;
 
     @Test
     void should_create_payment_successfully() {
@@ -417,5 +421,23 @@ class ReactiveCraftGatePaymentTests {
         assertNotNull(response.getToken());
     }
 
+    @Test
+    void create_deposit_payment() {
+        //Given
+        MemberResponse memberResponse = craftGateOnboarding.createMember(OnboardingTestData.buyerMemberRequest()).block();
+        assert memberResponse != null;
+        CreateDepositPaymentRequest request = PaymentTestData.depositPaymentRequest(memberResponse.getId());
+
+        //When
+        DepositPaymentResponse response = underTest.createDepositPayment(request).block();
+
+        //Then
+        assertNotNull(response);
+        assertNotNull(response.getId());
+        assertEquals(request.getBuyerMemberId(), response.getBuyerMemberId());
+        assertThat(request.getPrice()).isEqualByComparingTo(response.getPrice());
+        assertEquals(PaymentStatus.SUCCESS, response.getPaymentStatus());
+        assertEquals(PaymentType.DEPOSIT_PAYMENT, response.getPaymentType());
+    }
 
 }

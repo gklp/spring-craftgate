@@ -29,6 +29,7 @@ public final class PaymentTestData {
     public static String CVC = "000";
     public static String ANY_CONVERSATION_ID = "anyConversationId";
     public static String ANY_EXTERNAL_ID = "anyExternalId";
+    public static String CALLBACK_URL = "https://www.your-website.com/craftgate-3DSecure-callback";
 
     public static CreatePaymentRequest paymentRequest(String cardNumber) {
         return CreatePaymentRequest.builder()
@@ -93,7 +94,7 @@ public final class PaymentTestData {
                         .storeCardAfterSuccessPayment(storeCardAfterSuccessPayment)
                         .build())
                 .items(paymentItems)
-                .callbackUrl("https://www.your-website.com/craftgate-3DSecure-callback")
+                .callbackUrl(CALLBACK_URL)
                 .build();
     }
 
@@ -254,7 +255,7 @@ public final class PaymentTestData {
                 .paymentGroup(PaymentGroup.LISTING_OR_SUBSCRIPTION)
                 .paymentPhase(PaymentPhase.AUTH)
                 .items(buildPaymentItems())
-                .callbackUrl("https://www.your-website.com/craftgate-3DSecure-callback")
+                .callbackUrl(CALLBACK_URL)
                 .build();
     }
 
@@ -262,7 +263,7 @@ public final class PaymentTestData {
         return CreateDepositPaymentRequest.builder()
                 .price(BigDecimal.valueOf(100))
                 .buyerMemberId(buyerMemberId)
-                .conversationId("456d1297-908e-4bd6-a13b-4be31a6e47d5")
+                .conversationId(ANY_CONVERSATION_ID)
                 .card(Card.builder()
                         .cardHolderName(HOLDER_NAME)
                         .cardNumber(DEFAULT_CARD_NUMBER)
