@@ -145,11 +145,13 @@ public ExchangeStrategies.Builder craftgateExchangeBuilder(@CraftGateObjectMappe
 }
 ```
 
-**Supported Endpoints**
+### Supported Endpoints
 
 **Members**
 
 https://developer.craftgate.io/en/api/member/create-member
+
+Bean -> CraftGateOnboarding
 
 | operation       | api                             | version |
 |-----------------|---------------------------------|---------|
@@ -162,7 +164,9 @@ https://developer.craftgate.io/en/api/member/create-member
 
 https://developer.craftgate.io/en/api/installment-and-bin-inquiry/search-installments
 
+Bean -> CraftGateInstallment
+
 | operation            | api                              | version |
 |----------------------|----------------------------------|---------|
 | Search Installments  | GET /installment/v1/installments | 1.0.0   |
-| Retrieve BIN         | GET  installment/v1/bins         | 1.0.0   |
+| Retrieve BIN         | GET /installment/v1/bins         | 1.0.0   |
