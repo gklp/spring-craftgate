@@ -8,8 +8,8 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import utils.PaymentTestData;
 import utils.TestConfiguration;
-import utils.TestData;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -26,7 +26,7 @@ public class HashGeneratorTests {
     @RepeatedTest(3)
     public void should_create_hash_value_when_the_request_object_is_not_null() {
         //When
-        String hash = underTest.generateHash("anyString", TestData.paymentRequest(), Constants.PaymentPaths.CARD_PAYMENTS.path());
+        String hash = underTest.generateHash("anyString", PaymentTestData.paymentRequest(), Constants.PaymentPaths.CARD_PAYMENTS.path());
 
         //Then
         assertThat(hash).isNotNull();

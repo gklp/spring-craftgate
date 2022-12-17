@@ -1,4 +1,4 @@
-package io.github.gklp.springcraftgate.config.mixin;
+package io.github.gklp.springcraftgate.provider.objectmapper.mixin;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,17 +1,12 @@
 package io.github.gklp.springcraftgate.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.craftgate.exception.CraftgateException;
-import io.craftgate.model.Loyalty;
-import io.craftgate.model.Reward;
 import io.craftgate.response.common.ErrorResponse;
 import io.github.gklp.springcraftgate.Constants;
-import io.github.gklp.springcraftgate.config.mixin.LoyaltyMixIn;
-import io.github.gklp.springcraftgate.config.mixin.RewardMixIn;
 import io.github.gklp.springcraftgate.config.properties.CraftGateConfigurationProperties;
 import io.github.gklp.springcraftgate.config.properties.CraftGateLogConfigurationProperties;
+import io.github.gklp.springcraftgate.provider.annotation.CraftGateObjectMapper;
 import io.github.gklp.springcraftgate.support.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,10 +58,9 @@ public class CraftGateWebClientConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ExchangeStrategies.Builder craftgateExchangeBuilder() {
-        ObjectMapper craftgateObjectMapper = buildCustomObjectMapper();
-        Jackson2JsonEncoder encoder = new Jackson2JsonEncoder(craftgateObjectMapper, MediaType.APPLICATION_JSON);
-        Jackson2JsonDecoder decoder = new Jackson2JsonDecoder(craftgateObjectMapper, MediaType.APPLICATION_JSON);
+    public ExchangeStrategies.Builder craftgateExchangeBuilder(@CraftGateObjectMapper ObjectMapper objectMapper) {
+        Jackson2JsonEncoder encoder = new Jackson2JsonEncoder(objectMapper, MediaType.APPLICATION_JSON);
+        Jackson2JsonDecoder decoder = new Jackson2JsonDecoder(objectMapper , MediaType.APPLICATION_JSON);
 
         return ExchangeStrategies.builder().codecs(configurer -> {
             configurer.defaultCodecs().jackson2JsonEncoder(encoder);
@@ -94,14 +88,6 @@ public class CraftGateWebClientConfiguration {
             clientRequest.headers().forEach((name, values) -> values.forEach(value -> log.info("{} = {}", name, value)));
             return Mono.just(clientRequest);
         });
-    }
-
-    private ObjectMapper buildCustomObjectMapper() {
-        return JsonMapper.builder()
-                .addModule(new JavaTimeModule())
-                .addMixIn(Loyalty.class, LoyaltyMixIn.class)
-                .addMixIn(Reward.class, RewardMixIn.class)
-                .build();
     }
 
 }

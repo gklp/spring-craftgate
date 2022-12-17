@@ -5,6 +5,23 @@ public final class Constants {
     private Constants() {
     }
 
+    public enum OnboardingPaths {
+        CREATE_MEMBER("/onboarding/v1/members"),
+        UPDATE_MEMBER("/onboarding/v1/members/{id}"),
+        RETRIEVE_MEMBER("/onboarding/v1/members/{id}"),
+        SEARCH_MEMBERS("/onboarding/v1/members");
+
+        private final String path;
+
+        OnboardingPaths(String path) {
+            this.path = path;
+        }
+
+        public String path() {
+            return path;
+        }
+    }
+
     public enum PaymentPaths {
         CARD_PAYMENTS("/payment/v1/card-payments"),
         CARD_PAYMENTS_RETRIEVE("/payment/v1/card-payments/{id}"),
