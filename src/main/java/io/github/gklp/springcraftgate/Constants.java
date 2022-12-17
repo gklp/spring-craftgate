@@ -22,6 +22,21 @@ public final class Constants {
         }
     }
 
+    public enum InstallmentPaths {
+        SEARCH_INSTALLMENTS("/installment/v1/installments"),
+        RETRIEVE_BIN_NUMBER("/installment/v1/bins/{binNumber}");
+
+        private final String path;
+
+        InstallmentPaths(String path) {
+            this.path = path;
+        }
+
+        public String path() {
+            return path;
+        }
+    }
+
     public enum PaymentPaths {
         CARD_PAYMENTS("/payment/v1/card-payments"),
         CARD_PAYMENTS_RETRIEVE("/payment/v1/card-payments/{id}"),

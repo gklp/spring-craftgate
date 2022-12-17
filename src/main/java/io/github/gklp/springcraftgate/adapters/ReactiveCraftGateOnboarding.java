@@ -9,7 +9,6 @@ import io.github.gklp.springcraftgate.QueryUtil;
 import io.github.gklp.springcraftgate.provider.AuthorizationHeaderProvider;
 import io.github.gklp.springcraftgate.support.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -19,7 +18,6 @@ import static io.github.gklp.springcraftgate.Constants.OnboardingPaths.*;
 
 @Component
 @RequiredArgsConstructor
-@Slf4j
 public class ReactiveCraftGateOnboarding implements CraftGateOnboarding {
 
     private final WebClient craftgateWebClient;
