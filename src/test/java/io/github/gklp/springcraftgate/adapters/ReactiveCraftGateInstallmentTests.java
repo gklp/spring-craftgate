@@ -46,7 +46,7 @@ public class ReactiveCraftGateInstallmentTests {
         //When
         InstallmentListResponse response = underTest.searchInstallments(request).block();
 
-        //Then,
+        //Then
         assertThat(response).isNotNull();
         assertThat(response.getItems()).isNotNull();
         assertThat(response.getItems().size()).isGreaterThan(0);
