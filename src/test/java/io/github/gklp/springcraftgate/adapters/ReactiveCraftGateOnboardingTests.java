@@ -164,7 +164,7 @@ public class ReactiveCraftGateOnboardingTests {
 
         //Then
         assertThat(response).isNotNull();
-        assert response != null;
+        assertThat(response.getItems()).isNotNull();
         assertThat(response.getItems().size()).isEqualTo(2);
     }
 
