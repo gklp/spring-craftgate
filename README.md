@@ -134,14 +134,35 @@ You can change object mapper properties and provide new encoder or decoder like 
 ```java
 @Bean
 @ConditionalOnMissingBean
-public ExchangeStrategies.Builder craftgateExchangeBuilder() {
-    ObjectMapper craftgateObjectMapper = buildCustomObjectMapper();
-    Jackson2JsonEncoder encoder = new Jackson2JsonEncoder(craftgateObjectMapper, MediaType.APPLICATION_JSON);
-    Jackson2JsonDecoder decoder = new Jackson2JsonDecoder(craftgateObjectMapper, MediaType.APPLICATION_JSON);
-
+public ExchangeStrategies.Builder craftgateExchangeBuilder(@CraftGateObjectMapper ObjectMapper objectMapper) {
+    Jackson2JsonEncoder encoder = new Jackson2JsonEncoder(objectMapper, MediaType.APPLICATION_JSON);
+    Jackson2JsonDecoder decoder = new Jackson2JsonDecoder(objectMapper, MediaType.APPLICATION_JSON);
+    
     return ExchangeStrategies.builder().codecs(configurer -> {
-    configurer.defaultCodecs().jackson2JsonEncoder(encoder);
-    configurer.defaultCodecs().jackson2JsonDecoder(decoder);
-  });
+        configurer.defaultCodecs().jackson2JsonEncoder(encoder);
+        configurer.defaultCodecs().jackson2JsonDecoder(decoder);
+    });
 }
 ```
+
+**Supported Endpoints**
+
+**Members**
+
+https://developer.craftgate.io/en/api/member/create-member
+
+| operation       | api                             | version |
+|-----------------|---------------------------------|---------|
+| Create Member   | POST /onboarding/v1/members     | 1.0.0   |
+| Update Member   | PUT  /onboarding/v1/members/:id | 1.0.0   |
+| Retrieve Member | GET  /onboarding/v1/members/:id | 1.0.0   |
+| Search Members  | GET  /onboarding/v1/members     | 1.0.0   |
+
+**Installment and BIN Inquiry**
+
+https://developer.craftgate.io/en/api/installment-and-bin-inquiry/search-installments
+
+| operation            | api                              | version |
+|----------------------|----------------------------------|---------|
+| Search Installments  | GET /installment/v1/installments | 1.0.0   |
+| Retrieve BIN         | GET  installment/v1/bins         | 1.0.0   |
